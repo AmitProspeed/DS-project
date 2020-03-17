@@ -1,5 +1,5 @@
-# P2P-music-sharing
-This is a networking project where i make a peer to peer network to share files among peers
+# P2P-file-sharing
+In this project, a peer to peer network is established to share files among peers
 
 The application is developed using python3 
 
