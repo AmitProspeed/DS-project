@@ -22,7 +22,7 @@ def keys():
         scan_keys = list()
         print('Keys: ', keys)
         for key in keys:
-            print('String: ', key.decode)
+            # print('String: ', key.decode)
             scan_keys.append(key)
         response = {
             'keys': scan_keys
