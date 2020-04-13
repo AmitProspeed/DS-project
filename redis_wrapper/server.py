@@ -15,7 +15,7 @@ def hello():
 @app.route("/api/getAll", methods=['GET'])
 def keys():
     '''
-        Return keys
+        Return all files available in the P2P network
     '''
     try:
         keys = redis_object.getAll()

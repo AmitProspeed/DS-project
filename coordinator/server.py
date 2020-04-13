@@ -16,6 +16,10 @@ global ip
 global port
 
 def signal_handler(sig, frame):
+    '''
+        Handle Nodes that leave the network
+        Prune and cleanup
+    '''
     # Implement Node Leave here!
     print('You pressed Ctrl+C!')
     sys.exit(0)
