@@ -1,0 +1,11 @@
+wget http://download.redis.io/redis-stable.tar.gz
+tar xvzf redis-stable.tar.gz
+cd redis-stable
+sudo apt-get install gcc
+sudo apt-get install build-essential
+make MALLOC=libc
+sudo make install
+sudo apt-get install tcl
+make test
+redis-server
+redis-cli ping
