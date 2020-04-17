@@ -7,6 +7,8 @@ import signal
 import jsonpickle
 import io
 import base64
+import argparse
+import os
 
 from flask import Flask, request, Response
 
@@ -23,6 +25,35 @@ def signal_handler(sig, frame):
     # Implement Node Leave here!
     print('You pressed Ctrl+C!')
     sys.exit(0)
+
+def replicate(ips):
+    for ip in ips:
+        server_url = 'http://' + ip + '/api/store_content'
+        headers = {'content-type': 'application/pdf'}
+        file_bytes = open('../input_files/sample.pdf', 'rb').read()
+        response = requests.post(server_url, data=file_bytes, headers=headers).json()
+        print('Response: ', response)
+
+        # Update Redis key-value Key: file:<file_name> Value: List(IP)
+        server_url = 'http://' + redis_host + '/api/fetch/' + 'file:sample.pdf'
+        response = requests.get(server_url).json()
+        print('Fetch Key Response: ', response)
+        if response['value'] is None:
+            value = [ip]
+        else:
+            value = json.loads(response['value'])
+            if ip not in value:
+                value.append(ip)
+        
+        print('Final Updated Value: ', value)
+        data = { 'key': 'file:sample.pdf', 'value': json.dumps(value) }
+        headers = { 'Content-Type': 'application/json' }
+        server_url = 'http://' + redis_host + '/api/set'
+        response = requests.post(server_url, data=json.dumps(data), headers=headers).json()
+    
+    print('File Replicated!')
+    return "Files replicated and stored across all peers"
+
 
 @app.route('/api/store', methods=['POST'])
 def store():
@@ -51,32 +82,33 @@ def store():
             return Response(response=jsonpickle.encode({ 'message': 'No nodes in the network', 'done': False }), status=200, mimetype="application/json")
         
         # Choose one from the remaining list if any
-        IP = ips[0]
-        print('IP: ', IP)
-        # Send a request to this IP to store the file
-        server_url = 'http://' + IP + '/api/store_content'
-        headers = {'content-type': 'application/pdf'}
-        file_bytes = open('../input_files/sample.pdf', 'rb').read()
-        response = requests.post(server_url, data=file_bytes, headers=headers).json()
-        print('Response: ', response)
+        message = replicate(ips)
+        # IP = ips[0]
+        # print('IP: ', IP)
+        # # Send a request to this IP to store the file
+        # server_url = 'http://' + IP + '/api/store_content'
+        # headers = {'content-type': 'application/pdf'}
+        # file_bytes = open('../input_files/sample.pdf', 'rb').read()
+        # response = requests.post(server_url, data=file_bytes, headers=headers).json()
+        # print('Response: ', response)
 
-        # Update Redis key-value Key: file:<file_name> Value: List(IP)
-        server_url = 'http://' + redis_host + '/api/fetch/' + 'file:sample.pdf'
-        response = requests.get(server_url).json()
-        print('Fetch Key Response: ', response)
-        if response['value'] is None:
-            value = [IP]
-        else:
-            value = json.loads(response['value'])
-            value.append(IP)
+        # # Update Redis key-value Key: file:<file_name> Value: List(IP)
+        # server_url = 'http://' + redis_host + '/api/fetch/' + 'file:sample.pdf'
+        # response = requests.get(server_url).json()
+        # print('Fetch Key Response: ', response)
+        # if response['value'] is None:
+        #     value = [IP]
+        # else:
+        #     value = json.loads(response['value'])
+        #     value.append(IP)
         
-        print('Final Updated Value: ', value)
-        data = { 'key': 'file:sample.pdf', 'value': json.dumps(value) }
-        headers = { 'Content-Type': 'application/json' }
-        server_url = 'http://' + redis_host + '/api/set'
-        response = requests.post(server_url, data=json.dumps(data), headers=headers).json()
+        # print('Final Updated Value: ', value)
+        # data = { 'key': 'file:sample.pdf', 'value': json.dumps(value) }
+        # headers = { 'Content-Type': 'application/json' }
+        # server_url = 'http://' + redis_host + '/api/set'
+        # response = requests.post(server_url, data=json.dumps(data), headers=headers).json()
 
-        return Response(response=jsonpickle.encode({ 'ips': ips, 'message': response }), status=200, mimetype="application/json")
+        return Response(response=jsonpickle.encode({ 'ips': ips, 'message': message }), status=200, mimetype="application/json")
 
     except Exception as e:
         response = {
@@ -147,7 +179,10 @@ def receive_content():
     r = request
     try:
         print('Received Bytes')
-        with open('../output/sample.pdf', 'wb') as f2:
+        filename = "{}-{}-sample.pdf".format(ip, port)
+        print('Filename: ', filename)
+        # os.makedirs(os.path.dirname("../{}:{}".format(host, port)), exist_ok=True)
+        with open("../output/" + filename, 'wb') as f2:
             f2.write(r.data)
             return Response(response=jsonpickle.encode({'operation': 'File Written Successfully'}), status=200, mimetype="application/json")
     except Exception as e:
@@ -178,32 +213,39 @@ def fetch_content(file_name):
         }
         return Response(response=jsonpickle.encode(response), status=500, mimetype="application/json")
 
-if __name__ == "__main__":
+def join(redis_host, ip, port):
+    print('Joining network!')
+    data = { 'ip': ip + ':' + port }
+    remote_url = 'http://' + redis_host + "/api/join"
+    headers = { 'Content-Type': 'application/json' }
     try:
-        print('PLatform Node: ', platform.node())
-        ip = sys.argv[1]
-        redis_host = sys.argv[2]
-        port = sys.argv[3]
-        print('IP: ', ip)
-        print('Redis Host: ', redis_host)
-        data = {
-            'ip': ip + ':' + port
-        }
-        remote_url = 'http://' + redis_host + "/api/join"
-        print('Remote url: ', remote_url)
-        headers = {
-            'Content-Type': 'application/json'  
-        }
         join_url = requests.post(remote_url, data=json.dumps(data), headers=headers, verify=False)
         print('Join URL: ', join_url.json())
+    except Exception as e:
+        print('Unable to join network')
+        print('Error: ', e)
 
+
+if __name__ == "__main__":
+    try:
+        parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+        parser.add_argument('--redis_host', default='127.0.0.1:5000', help='The IP of the redis-server. To be specified in host:port format. Defaults to localhost:5000')
+        parser.add_argument('--ip', default='127.0.0.1', help='The IP of the peer in the network. Specify just the IP. Defaults to localhost')
+        parser.add_argument('--port', default='5000', help="The port of the peer/coordinator. Defaults to 5000")
         
+        args = parser.parse_args()
+        join(args.redis_host, args.ip, args.port)
+
+        redis_host = args.redis_host
+        ip = args.ip
+        port = args.port
+
         signal.signal(signal.SIGINT, signal_handler)
         print('Press Ctrl+C to stop the process, sigint handler registered')
-        print('Coordinator Server started!')
-        app.run(port=port)
+        app.run("0.0.0.0", port=port)
         print('Coordinator Server started!')
         signal.pause()
+
     except Exception as e:
         print('Unable to fetch hostname and IP')
         print('Exception trace: ', e)
