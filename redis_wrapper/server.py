@@ -1,6 +1,7 @@
 from flask import Flask, request, Response
 import jsonpickle
 import json
+import sys
 
 from main import RedisWrapper
 
@@ -19,7 +20,7 @@ def keys():
     '''
     try:
         keys = redis_object.getAll()
-        scan_keys = list()
+        scan_keys = []
         print('Keys: ', keys)
         for key in keys:
             # print('String: ', key.decode)
@@ -96,21 +97,30 @@ def nodeJoin():
         r = request.get_json()
         print('R: ', r)
         ip = r['ip']
+        space = r['space']
+        nodeData = [ip, space]
+        isPresent = False
         availableNodes = redis_object.availableNodes()
         print('Available Nodes: ', availableNodes)
         
         if availableNodes is not None:
             nodeList = json.loads(availableNodes)
+            for node in nodeList:
+                if node[0] == ip:
+                    nodeList.remove(node)
+                    nodeList.append(nodeData)
+                    isPresent = True
+                    break
+            if not isPresent:
+                nodeList.append(nodeData)
             print('Node List: ', nodeList)
             print('Nodelist type: ', type(nodeList))
-            if ip not in nodeList:
-                nodeList.append(ip)
 
             redis_object.setValue("nodes", json.dumps(nodeList))
             
         else:
             nodeList = list()
-            nodeList.append(ip)
+            nodeList.append(nodeData)
             print('NodeList: ', nodeList)
             nodeList_string = json.dumps(nodeList)
             redis_object.setValue("nodes", nodeList_string)
@@ -129,4 +139,6 @@ def nodeJoin():
 
 if __name__ == "__main__":
     redis_object = RedisWrapper("0.0.0.0", "6379")
-    app.run()
+    replication_factor = sys.argv[1]
+    redis_object.setValue("re_factor", replication_factor)
+    app.run(host="0.0.0.0")
