@@ -137,6 +137,50 @@ def nodeJoin():
         }
         return Response(response=jsonpickle.encode(response), status=500, mimetype="application/json")
 
+@app.route('/api/leave', methods=['POST'])
+def nodeLeave():
+    '''
+        A Node leaves the network
+        Input: IP
+        TODO: In future, stats about what resources this node can offer
+        TODO: Implement Heartbeat and update Redis
+    '''
+    try:
+        r = request.get_json()
+        print('R: ', r)
+        ip = r['ip']
+        availableNodes = redis_object.availableNodes()
+        print('Available Nodes: ', availableNodes)
+        
+        if availableNodes is not None:
+            nodeList = json.loads(availableNodes)
+            for node in nodeList:
+                if node[0] == ip:
+                    nodeList.remove(node)
+                    break
+            print('Node List: ', nodeList)
+            print('Nodelist type: ', type(nodeList))
+
+            redis_object.setValue("nodes", json.dumps(nodeList))
+            
+        else:
+            nodeList = list()
+            print('NodeList: ', nodeList)
+            nodeList_string = json.dumps(nodeList)
+            redis_object.setValue("nodes", nodeList_string)
+
+        response = {
+            'nodes': nodeList
+        }
+        return Response(response=jsonpickle.encode(response), status=200, mimetype="application/json")
+    except Exception as e:
+        print('E: ', e)
+        response = {
+            'trace': e,
+            'error': True
+        }
+        return Response(response=jsonpickle.encode(response), status=500, mimetype="application/json")
+
 if __name__ == "__main__":
     redis_object = RedisWrapper("0.0.0.0", "6379")
     replication_factor = sys.argv[1]
