@@ -84,6 +84,37 @@ def setKeyValue():
         }
         return Response(response=jsonpickle.encode(response), status=500, mimetype="application/json")
 
+@app.route('/api/metrics', methods=['GET'])
+def fetchMetrics():
+    '''
+        Fetch Server Metrics
+    '''
+    r = request.get_json()
+    try:
+        availableNodes = redis_object.availableNodes()
+        nodeList = json.loads(availableNodes)
+        metrics = {}
+        used = 0
+        free = 0
+        total = 0
+        for node in nodeList:
+            nodeStats = node[2]
+            used += nodeStats['used']
+            total += nodeStats['total']
+            free += nodeStats['free']
+
+        metrics['used'] = used
+        metrics['total'] = total
+        metrics['free'] = free
+        return Response(response=jsonpickle.encode(metrics), status=200, mimetype="application/json")
+    except Exception as e:
+        print('Error: ', e)
+        response = {
+            'trace': e,
+            'error': True
+        }
+        return Response(response=jsonpickle.encode(response), status=200, mimetype="application/json")
+
 
 @app.route('/api/join', methods=['POST'])
 def nodeJoin():
@@ -98,7 +129,8 @@ def nodeJoin():
         print('R: ', r)
         ip = r['ip']
         space = r['space']
-        nodeData = [ip, space]
+        diskStats = r['disk']
+        nodeData = [ip, space, diskStats]
         isPresent = False
         availableNodes = redis_object.availableNodes()
         print('Available Nodes: ', availableNodes)

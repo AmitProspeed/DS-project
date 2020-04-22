@@ -300,7 +300,13 @@ if __name__ == "__main__":
         print ('Free space: ', free // (2**20))
         data = {
             'ip': ip + ':' + port,
-            'space': free // (2**20)    #converting bytes to MB
+            'space': free // (2**20),    #converting bytes to MB,
+            'disk': {
+                'total': total // (2**30),
+                'used': used // (2**30),
+                'free': free // (2**30)
+
+            }
         }
         remote_url = 'http://' + redis_host + "/api/join"
         print('Remote url: ', remote_url)
