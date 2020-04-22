@@ -25,8 +25,123 @@ def signal_handler(sig, frame):
         Prune and cleanup
     '''
     # Implement Node Leave here!
-    print('You pressed Ctrl+C!')
-    sys.exit(0)
+
+    #Send available chunks to another node having sufficient space randomnly selected
+    #Get available nodes of the network
+    server_url = 'http://' + redis_host + "/api/fetch/nodes"
+    response = requests.get(server_url, verify=False)
+    json_response = response.json()
+    nodeData = json.loads(json_response['value'])
+    ips = [node[0] for node in nodeData]
+    spaces = [node[1] for node in nodeData]
+    print('IPS: ', ips)
+    print('Type: ', type(ips))
+    # Remove the current node IP from this list
+    current_node_ip = ip + ":" + port
+    index = ips.index(current_node_ip)
+    del ips[index]
+    del spaces[index]
+    #check space available in the peer
+    available_ips = []
+    disk_size = 0
+    files = os.listdir('../output/')
+    for f in files:
+        if "_part" in f:
+            fb = os.path.join('../output/', f)
+            disk_size += os.path.getsize(fb)
+    disk_size /= 2**20
+
+    print ('Total size of available chunks:', disk_size)
+    for i in ips:
+        index = ips.index(i)
+        available_space = spaces[index]
+        if available_space > disk_size:
+            available_ips.append(i)
+
+    IP = random.choice(available_ips)
+
+    #get the chunk files and send to the random IP selected
+    for file in files:
+        if "_part" in file:
+            print ('chunk: ', file)
+            filepath = os.path.join('../output/', file)
+            with open (filepath, 'rb') as file_bytes:
+                data = file_bytes.read()
+                file_data = {'name':file, 'data':data.decode('utf-8')}
+                print('IP: ', IP)
+                server_url = 'http://' + IP + '/api/store_content'
+                headers = {'content-type': 'application/pdf'}
+                response = requests.post(server_url, data=json.dumps(file_data), headers=headers).json()
+                print('Response: ', response)
+
+            #Fetch all files present in redis and find the main file
+            remote_url = 'http://' + redis_host + "/api/getAll"
+            response = requests.get(remote_url, verify=False)
+            json_response = response.json()
+            print('JSON Response: ', json_response)
+            #file_list_dict = fetchFiles()
+            #print (file_list_dict)
+            file_list = json_response['keys']
+            print ('file list:', file_list)
+            fname = file.split("_part")[0]
+            chunk_number = file.split("_part")[1]
+            chunk_number = int(chunk_number)
+            for f in file_list:
+                if fname in f:
+                    filename = f.split("file:")[1]
+                    break
+
+            # Update Redis key-value Key: file:<file_name> Value: {IP: List(chunk_numbers)}
+            server_url = 'http://' + redis_host + '/api/fetch/' + 'file:' + filename
+            response = requests.get(server_url).json()
+            print('Fetch Key Response: ', response)
+            if response['value'] is None:
+                value = {IP: [chunk_number]}
+            else:
+                value = json.loads(response['value'])
+                chunk_list = None
+                #remove the current chunk info
+                current_chunk_list = value[current_node_ip]
+                current_chunk_list.remove(chunk_number)
+                value[current_node_ip] = current_chunk_list
+
+                #set the updated chunk info
+                if IP in value.keys():
+                    chunk_list = value[IP]
+                if IP not in value.keys() or chunk_list is None:
+                    value[IP] = [chunk_number]
+                else:
+                    chunk_set = set(chunk_list)
+                    chunk_set.add(chunk_number)
+                    value[IP] = list(chunk_set)
+
+            print('Final Updated Value: ', value)
+            data = {'key': 'file:'+filename, 'value': json.dumps(value)}
+            headers = {'Content-Type': 'application/json'}
+            server_url = 'http://' + redis_host + '/api/set'
+            response = requests.post(server_url, data=json.dumps(data), headers=headers).json()
+
+
+    #call node leave API
+    print('IP: ', ip)
+    print('Port: ', port)
+    print('Redis Host: ', redis_host)
+    data = {
+        'ip': ip + ':' + port,
+    }
+    remote_url = 'http://' + redis_host + "/api/leave"
+    print('Remote url: ', remote_url)
+    headers = {
+        'Content-Type': 'application/json'  
+    }
+    try:
+        leave_url = requests.post(remote_url, data=json.dumps(data), headers=headers, verify=False)
+        print('Join URL: ', join_url.json())
+        print('You pressed Ctrl+C!')
+        sys.exit(0)
+    except Exception as e:
+        print ("Exception occurred:", e)
+        raise Exception('Node leave failure for IP:', ip)
 
 @app.route('/api/store', methods=['POST'])
 def store():
@@ -119,7 +234,7 @@ def store():
                     headers = {'content-type': 'application/pdf'}
                     response = requests.post(server_url, data=json.dumps(file_data), headers=headers).json()
                     print('Response: ', response)
-                    # Update Redis key-value Key: file:<file_name> Value: List(IP)
+                    # Update Redis key-value Key: file:<file_name> Value: {IP: List(chunk_numbers)}
                     server_url = 'http://' + redis_host + '/api/fetch/' + 'file:' + file
                     response = requests.get(server_url).json()
                     print('Fetch Key Response: ', response)
