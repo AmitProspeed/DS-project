@@ -1,0 +1,380 @@
+%PDF-1.3
+%‚„œ”
+
+1 0 obj
+<<
+/Type /Catalog
+/Outlines 2 0 R
+/Pages 3 0 R
+>>
+endobj
+
+2 0 obj
+<<
+/Type /Outlines
+/Count 0
+>>
+endobj
+
+3 0 obj
+<<
+/Type /Pages
+/Count 2
+/Kids [ 4 0 R 6 0 R ] 
+>>
+endobj
+
+4 0 obj
+<<
+/Type /Page
+/Parent 3 0 R
+/Resources <<
+/Font <<
+/F1 9 0 R 
+>>
+/ProcSet 8 0 R
+>>
+/MediaBox [0 0 612.0000 792.0000]
+/Contents 5 0 R
+>>
+endobj
+
+5 0 obj
+<< /Length 1074 >>
+stream
+2 J
+BT
+0 0 0 rg
+/F1 0027 Tf
+57.3750 722.2800 Td
+( A Simple PDF File ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 688.6080 Td
+( This is a small demonstration .pdf file - ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 664.7040 Td
+( just for use in the Virtual Mechanics tutorials. More text. And more ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 652.7520 Td
+( text. And more text. And more text. And more text. ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 628.8480 Td
+( And more text. And more text. And more text. And more text. And more ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 616.8960 Td
+( text. And more text. Boring, zzzzz. And more text. And more text. And ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 604.9440 Td
+( more text. And more text. And more text. And more text. And more text. ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 592.9920 Td
+( And more text. And more text. ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 569.0880 Td
+( And more text. And more text. And more text. And more text. And more ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 557.1360 Td
+( text. And more text. And more text. Even more. Continued on page 2 ...) Tj
+ET
+endstream
+endobj
+
+6 0 obj
+<<
+/Type /Page
+/Parent 3 0 R
+/Resources <<
+/Font <<
+/F1 9 0 R 
+>>
+/ProcSet 8 0 R
+>>
+/MediaBox [0 0 612.0000 792.0000]
+/Contents 7 0 R
+>>
+endobj
+
+7 0 obj
+<< /Length 676 >>
+stream
+2 J
+BT
+0 0 0 rg
+/F1 0027 Tf
+57.3750 722.2800 Td
+( Simple PDF File 2 ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 688.6080 Td
+( ...continued from page 1. Yet more text. And more text. And more text. ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 676.6560 Td
+( And more text. And more text. And more text. And more text. And more ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 664.7040 Td
+( text. Oh, how boring typing this stuff. But not as boring as watching ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 652.7520 Td
+( paint dry. And more text. And more text. And more text. And more text. ) Tj
+ET
+BT
+/F1 0010 Tf
+69.2500 640.8000 Td
+( Boring.  More, a little more text. The end, and just as well. ) Tj
+ET
+endstream
+endobj
+
+8 0 obj
+[/PDF /Text]
+endobj
+
+9 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+>>
+endobj
+
+10 0 obj
+<<
+/Creator (Rave \(http://www.nevrona.com/rave\))
+/Producer (Nevrona Designs)
+/CreationDate (D:20060301072826)
+>>
+endobj
+
+xref
+0 11
+0000000000 65535 f
+0000000019 00000 n
+0000000093 00000 n
+0000000147 00000 n
+0000000222 00000 n
+0000000390 00000 n
+0000001522 00000 n
+0000001690 00000 n
+0000002423 00000 n
+0000002456 00000 n
+0000002574 00000 n
+
+trailer
+<<
+/Size 11
+/Root 1 0 R
+/Info 10 0 R
+>>
+
+startxref
+2714
+%%EOF
+11 0 obj
+<<
+	/Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+	/CreationDate (D:20060301072826)
+	/ModDate (D:20200326172006-06'00')
+	/source-Creator (Rave \(http://www.nevrona.com/rave\))
+	/source-Producer (Nevrona Designs)
+>>
+endobj
+xref
+0 1
+0000000000 65535 f
+11 1
+0000003028 00000 n
+trailer
+<<
+	/Size 12
+	/Prev 2714
+	/Root 1 0 R
+	/Info 11 0 R
+	/ID [ <> <D2EAE75B738D0E3C4949287572B972F9> ]
+>>
+startxref
+3362
+%%EOF12 0 obj
+<<
+	/Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+	/CreationDate (D:20060301072826)
+	/ModDate (D:20200326172111-06'00')
+	/source-Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/source-ModDate (D:20200326172006-06'00')
+	/source-Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+>>
+endobj
+xref
+0 1
+0000000000 65535 f
+12 1
+0000003559 00000 n
+trailer
+<<
+	/Size 13
+	/Prev 3362
+	/Root 1 0 R
+	/Info 12 0 R
+	/ID [ <> <D8526C8A35DAFD513130605004C67A2F> ]
+>>
+startxref
+3999
+%%EOF13 0 obj
+<<
+	/Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+	/CreationDate (D:20060301072826)
+	/ModDate (D:20200326172215-06'00')
+	/source-Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/source-ModDate (D:20200326172111-06'00')
+	/source-Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+>>
+endobj
+xref
+0 1
+0000000000 65535 f
+13 1
+0000004196 00000 n
+trailer
+<<
+	/Size 14
+	/Prev 3999
+	/Root 1 0 R
+	/Info 13 0 R
+	/ID [ <> <10E1C05DA6A35387D16BC97E930D144F> ]
+>>
+startxref
+4636
+%%EOF14 0 obj
+<<
+	/Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+	/CreationDate (D:20060301072826)
+	/ModDate (D:20200326172256-06'00')
+	/source-Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/source-ModDate (D:20200326172215-06'00')
+	/source-Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+>>
+endobj
+xref
+0 1
+0000000000 65535 f
+14 1
+0000004833 00000 n
+trailer
+<<
+	/Size 15
+	/Prev 4636
+	/Root 1 0 R
+	/Info 14 0 R
+	/ID [ <> <44E0C4D94A77524151AAD6A9F4EB0137> ]
+>>
+startxref
+5273
+%%EOF15 0 obj
+<<
+	/Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+	/CreationDate (D:20060301072826)
+	/ModDate (D:20200326173815-06'00')
+	/source-Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/source-ModDate (D:20200326172256-06'00')
+	/source-Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+>>
+endobj
+xref
+0 1
+0000000000 65535 f
+15 1
+0000005470 00000 n
+trailer
+<<
+	/Size 16
+	/Prev 5273
+	/Root 1 0 R
+	/Info 15 0 R
+	/ID [ <> <0911F5D5D5ED175965905859D843DD95> ]
+>>
+startxref
+5910
+%%EOF16 0 obj
+<<
+	/Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+	/CreationDate (D:20060301072826)
+	/ModDate (D:20200326173839-06'00')
+	/source-Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/source-ModDate (D:20200326173815-06'00')
+	/source-Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+>>
+endobj
+xref
+0 1
+0000000000 65535 f
+16 1
+0000006107 00000 n
+trailer
+<<
+	/Size 17
+	/Prev 5910
+	/Root 1 0 R
+	/Info 16 0 R
+	/ID [ <> <E945A60DA137BFD365EBA36ACBF685A0> ]
+>>
+startxref
+6547
+%%EOF17 0 obj
+<<
+	/Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+	/CreationDate (D:20060301072826)
+	/ModDate (D:20200326174112-06'00')
+	/source-Creator (Hummus-Recipe \(https://github.com/chunyenHuang/hummusRecipe\))
+	/source-ModDate (D:20200326173839-06'00')
+	/source-Producer (PDFHummus \(https://github.com/galkahana/HummusJS\))
+>>
+endobj
+xref
+0 1
+0000000000 65535 f
+17 1
+0000006744 00000 n
+trailer
+<<
+	/Size 18
+	/Prev 6547
+	/Root 1 0 R
+	/Info 17 0 R
+	/ID [ <> <97521839D6DF2AD04C055CBA7A3274EE> ]
+>>
+startxref
+7184
+%%EOF
